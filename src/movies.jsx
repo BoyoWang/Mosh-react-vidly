@@ -33,14 +33,23 @@ class Movies extends Component {
     );
   }
 
+  infoText() {
+    let textReturn = "No movies selected.";
+
+    if (this.state.movies.length !== 0) {
+      textReturn =
+        "Showing " +
+        String(this.state.movies.length) +
+        " movies in the database.";
+    }
+
+    return textReturn;
+  }
+
   render() {
     return (
       <React.Fragment>
-        <p>
-          {"Showing " +
-            String(this.state.movies.length) +
-            " movies in the database."}
-        </p>
+        <p>{this.infoText()}</p>
         <table className="table">
           <thead>
             <tr>
