@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { getMovies } from "./services/fakeMovieService";
-import LikeButtom from "./components/likeButtom";
+import { getMovies } from "../services/fakeMovieService";
+import Like from "./common/like";
 
 class Movies extends Component {
   state = {
@@ -23,7 +23,7 @@ class Movies extends Component {
         <td>{numberInStock}</td>
         <td>{dailyRentalRate}</td>
         <td>
-          <LikeButtom enable={false} />
+          <Like enable={false} />
         </td>
         <td>
           <button

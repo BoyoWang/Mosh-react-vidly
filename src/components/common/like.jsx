@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class LikeButtom extends Component {
+class Like extends Component {
   state = { enable: false };
 
   enableState() {
@@ -33,4 +33,4 @@ class LikeButtom extends Component {
   }
 }
 
-export default LikeButtom;
+export default Like;
