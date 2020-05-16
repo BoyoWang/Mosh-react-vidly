@@ -12,8 +12,16 @@ class Movies extends Component {
     this.setState({ movies });
   };
 
-  listItem(movie) {
-    const { title, numberInStock, dailyRentalRate } = movie;
+  handleLike = (movie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movie };
+    movies[index].liked = !movie.liked;
+    this.setState({ movies });
+  };
+
+  listItem = (movie) => {
+    const { title, numberInStock, dailyRentalRate, liked } = movie;
     const genre = movie.genre.name;
 
     return (
@@ -23,7 +31,7 @@ class Movies extends Component {
         <td>{numberInStock}</td>
         <td>{dailyRentalRate}</td>
         <td>
-          <Like enable={false} />
+          <Like liked={liked} onClick={() => this.handleLike(movie)} />
         </td>
         <td>
           <button
@@ -35,7 +43,7 @@ class Movies extends Component {
         </td>
       </tr>
     );
-  }
+  };
 
   infoText() {
     let textReturn = "No movies selected.";
