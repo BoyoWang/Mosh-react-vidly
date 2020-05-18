@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import Like from "./common/like";
 import Pagination from "./common/pagination";
+import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
@@ -66,6 +67,9 @@ class Movies extends Component {
   }
 
   render() {
+    const { movies: allMovies, currentPage, pageSize } = this.state;
+    const movies = paginate(allMovies, currentPage, pageSize);
+
     return (
       <React.Fragment>
         <p>{this.infoText()}</p>
@@ -80,15 +84,13 @@ class Movies extends Component {
               <th>Delete</th>
             </tr>
           </thead>
-          <tbody>
-            {this.state.movies.map((movie) => this.listItem(movie))}
-          </tbody>
+          <tbody>{movies.map((movie) => this.listItem(movie))}</tbody>
         </table>
         <Pagination
-          itemsCount={this.state.movies.length}
-          pageSize={this.state.pageSize}
+          itemsCount={allMovies.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
           onPageChange={this.handlePageChange}
-          currentPage={this.state.currentPage}
         />
       </React.Fragment>
     );
