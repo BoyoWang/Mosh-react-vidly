@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
 import Like from "./common/like";
 import Pagination from "./common/pagination";
+import ListGroup from "./listGroup";
 import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
+    movies: [],
+    genres: [],
     pageSize: 4,
     currentPage: 1,
   };
+
+  componentDidMount() {
+    this.setState({ movies: getMovies(), genres: getGenres() });
+  }
 
   handleDelete = (movie) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
@@ -26,6 +33,10 @@ class Movies extends Component {
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
+  };
+
+  handleGenreSelect = (genre) => {
+    console.log(genre);
   };
 
   listItem = (movie) => {
@@ -71,28 +82,36 @@ class Movies extends Component {
     const movies = paginate(allMovies, currentPage, pageSize);
 
     return (
-      <React.Fragment>
-        <p>{this.infoText()}</p>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Genere</th>
-              <th>Stock</th>
-              <th>Rate</th>
-              <th>Like</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>{movies.map((movie) => this.listItem(movie))}</tbody>
-        </table>
-        <Pagination
-          itemsCount={allMovies.length}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={this.handlePageChange}
-        />
-      </React.Fragment>
+      <div className="row">
+        <div className="col-3">
+          <ListGroup
+            items={this.state.genres}
+            onItemSelect={this.handleGenreSelect}
+          />
+        </div>
+        <div className="col">
+          <p>{this.infoText()}</p>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Genere</th>
+                <th>Stock</th>
+                <th>Rate</th>
+                <th>Like</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>{movies.map((movie) => this.listItem(movie))}</tbody>
+          </table>
+          <Pagination
+            itemsCount={allMovies.length}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
+      </div>
     );
   }
 }
