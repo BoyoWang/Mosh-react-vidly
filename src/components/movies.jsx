@@ -10,7 +10,6 @@ class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    selectedGenre: {},
     pageSize: 4,
     currentPage: 1,
   };
@@ -65,22 +64,29 @@ class Movies extends Component {
     );
   };
 
-  infoText() {
+  infoText(itemsCount) {
     let textReturn = "No movies selected.";
 
-    if (this.state.movies.length !== 0) {
-      textReturn =
-        "Showing " +
-        String(this.state.movies.length) +
-        " movies in the database.";
+    if (itemsCount !== 0) {
+      textReturn = "Showing " + String(itemsCount) + " movies in the database.";
     }
 
     return textReturn;
   }
 
   render() {
-    const { movies: allMovies, currentPage, pageSize } = this.state;
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const {
+      movies: allMovies,
+      currentPage,
+      pageSize,
+      selectedGenre,
+    } = this.state;
+
+    const filtered = selectedGenre
+      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+      : allMovies;
+
+    const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <div className="row">
@@ -92,7 +98,7 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <p>{this.infoText()}</p>
+          <p>{this.infoText(filtered.length)}</p>
           <table className="table">
             <thead>
               <tr>
@@ -107,7 +113,7 @@ class Movies extends Component {
             <tbody>{movies.map((movie) => this.listItem(movie))}</tbody>
           </table>
           <Pagination
-            itemsCount={allMovies.length}
+            itemsCount={filtered.length}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
