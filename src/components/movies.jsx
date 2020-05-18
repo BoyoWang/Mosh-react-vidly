@@ -10,12 +10,12 @@ class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    pageSize: 2,
+    pageSize: 3,
     currentPage: 1,
   };
 
   componentDidMount() {
-    const genres = [{ name: "All Movies" }, ...getGenres()];
+    const genres = [{ name: "All Movies", _id: null }, ...getGenres()];
     this.setState({ movies: getMovies(), genres });
   }
 
