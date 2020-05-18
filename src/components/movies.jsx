@@ -7,6 +7,7 @@ class Movies extends Component {
   state = {
     movies: getMovies(),
     pageSize: 4,
+    currentPage: 1,
   };
 
   handleDelete = (movie) => {
@@ -23,7 +24,7 @@ class Movies extends Component {
   };
 
   handlePageChange = (page) => {
-    console.log(page);
+    this.setState({ currentPage: page });
   };
 
   listItem = (movie) => {
@@ -87,6 +88,7 @@ class Movies extends Component {
           itemsCount={this.state.movies.length}
           pageSize={this.state.pageSize}
           onPageChange={this.handlePageChange}
+          currentPage={this.state.currentPage}
         />
       </React.Fragment>
     );
