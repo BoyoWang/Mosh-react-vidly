@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
-import Like from "./common/like";
 import Pagination from "./common/pagination";
 import ListGroup from "./listGroup";
+import MoviesTable from "./moviesTable";
 import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    pageSize: 3,
+    pageSize: 4,
     currentPage: 1,
   };
 
@@ -38,31 +38,6 @@ class Movies extends Component {
 
   handleGenreSelect = (genre) => {
     this.setState({ selectedGenre: genre, currentPage: 1 });
-  };
-
-  listItem = (movie) => {
-    const { title, numberInStock, dailyRentalRate, liked } = movie;
-    const genre = movie.genre.name;
-
-    return (
-      <tr key={movie._id}>
-        <td>{title}</td>
-        <td>{genre}</td>
-        <td>{numberInStock}</td>
-        <td>{dailyRentalRate}</td>
-        <td>
-          <Like liked={liked} onClick={() => this.handleLike(movie)} />
-        </td>
-        <td>
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => this.handleDelete(movie)}
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    );
   };
 
   infoText(itemsCount) {
@@ -101,19 +76,12 @@ class Movies extends Component {
         </div>
         <div className="col">
           <p>{this.infoText(filtered.length)}</p>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Genere</th>
-                <th>Stock</th>
-                <th>Rate</th>
-                <th>Like</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>{movies.map((movie) => this.listItem(movie))}</tbody>
-          </table>
+          <MoviesTable
+            movies={movies}
+            onLike={this.handleLike}
+            onDelete={this.handleDelete}
+          />
+
           <Pagination
             itemsCount={filtered.length}
             pageSize={pageSize}
