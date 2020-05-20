@@ -2,8 +2,19 @@ import React from "react";
 import Like from "./common/like";
 
 const MoviesTable = (props) => {
-  const { movies, onLike, onDelete, onSort } = props;
+  const { movies, sortColumn, onLike, onDelete, onSort } = props;
 
+  const raiseSort = (path) => {
+    const newSortColumn = { ...sortColumn };
+    if (newSortColumn.path === path) {
+      newSortColumn.order = newSortColumn.order === "asc" ? "desc" : "asc";
+    } else {
+      newSortColumn.path = path;
+      newSortColumn.order = "asc";
+    }
+
+    onSort(newSortColumn);
+  };
   const listItem = (movie) => {
     const { title, numberInStock, dailyRentalRate, liked } = movie;
     const genre = movie.genre.name;
@@ -33,10 +44,10 @@ const MoviesTable = (props) => {
     <table className="table">
       <thead>
         <tr>
-          <th onClick={() => onSort("title")}>Title</th>
-          <th onClick={() => onSort("genre.name")}>Genere</th>
-          <th onClick={() => onSort("numberInStock")}>Stock</th>
-          <th onClick={() => onSort("dailyRentalRate")}>Rate</th>
+          <th onClick={() => raiseSort("title")}>Title</th>
+          <th onClick={() => raiseSort("genre.name")}>Genere</th>
+          <th onClick={() => raiseSort("numberInStock")}>Stock</th>
+          <th onClick={() => raiseSort("dailyRentalRate")}>Rate</th>
           <th></th>
           <th></th>
         </tr>
