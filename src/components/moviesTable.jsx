@@ -2,7 +2,7 @@ import React from "react";
 import Like from "./common/like";
 
 const MoviesTable = (props) => {
-  const { movies, onLike, onDelete } = props;
+  const { movies, onLike, onDelete, onSort } = props;
 
   const listItem = (movie) => {
     const { title, numberInStock, dailyRentalRate, liked } = movie;
@@ -33,12 +33,12 @@ const MoviesTable = (props) => {
     <table className="table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Genere</th>
-          <th>Stock</th>
-          <th>Rate</th>
-          <th>Like</th>
-          <th>Delete</th>
+          <th onClick={() => onSort("title")}>Title</th>
+          <th onClick={() => onSort("genre.name")}>Genere</th>
+          <th onClick={() => onSort("numberInStock")}>Stock</th>
+          <th onClick={() => onSort("dailyRentalRate")}>Rate</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>{movies.map((movie) => listItem(movie))}</tbody>
