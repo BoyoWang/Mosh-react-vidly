@@ -15,23 +15,28 @@ const TableHeader = (props) => {
     onSort(newSortColumn);
   };
 
+  const renderSortIcon = (column) => {
+    if (column.path !== sortColumn.path) return null;
+    return sortColumn.order == "asc" ? (
+      <i className="fa fa-sort-asc"></i>
+    ) : (
+      <i className="fa fa-sort-desc"></i>
+    );
+  };
+
   return (
     <thead>
       <tr>
         {columns.map((column) => (
           <th
+            className="clickable"
             key={column.path || column.key}
             onClick={() => raiseSort(column.path)}
           >
             {column.label}
+            {renderSortIcon(column)}
           </th>
         ))}
-        {/* <th onClick={() => raiseSort("title")}>Title</th>
-        <th onClick={() => raiseSort("genre.name")}>Genere</th>
-        <th onClick={() => raiseSort("numberInStock")}>Stock</th>
-        <th onClick={() => raiseSort("dailyRentalRate")}>Rate</th>
-        <th></th>
-        <th></th> */}
       </tr>
     </thead>
   );
