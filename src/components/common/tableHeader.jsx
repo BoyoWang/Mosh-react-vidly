@@ -17,7 +17,7 @@ const TableHeader = (props) => {
 
   const renderSortIcon = (column) => {
     if (column.path !== sortColumn.path) return null;
-    return sortColumn.order == "asc" ? (
+    return sortColumn.order === "asc" ? (
       <i className="fa fa-sort-asc"></i>
     ) : (
       <i className="fa fa-sort-desc"></i>
