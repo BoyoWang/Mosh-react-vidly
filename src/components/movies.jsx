@@ -46,17 +46,13 @@ class Movies extends Component {
     this.setState({ sortColumn: newSortColumn });
   };
 
-  infoText(itemsCount) {
-    let textReturn = "No movies selected.";
+  infoText = (itemsCount) => {
+    return itemsCount !== 0
+      ? "Showing " + String(itemsCount) + " movies in the database."
+      : "No movies selected.";
+  };
 
-    if (itemsCount !== 0) {
-      textReturn = "Showing " + String(itemsCount) + " movies in the database.";
-    }
-
-    return textReturn;
-  }
-
-  render() {
+  getPageData = () => {
     const {
       movies: allMovies,
       currentPage,
@@ -69,10 +65,16 @@ class Movies extends Component {
       selectedGenre && selectedGenre._id
         ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
         : allMovies;
-
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-
     const movies = paginate(sorted, currentPage, pageSize);
+
+    return { filtered, movies };
+  };
+
+  render() {
+    const { currentPage, pageSize, sortColumn } = this.state;
+
+    const { filtered, movies } = this.getPageData();
 
     return (
       <div className="row">
