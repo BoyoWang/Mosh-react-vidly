@@ -20,7 +20,7 @@ const TableHeader = (props) => {
       <tr>
         {columns.map((column) => (
           <th
-            key={column.label || column.key}
+            key={column.path || column.key}
             onClick={() => raiseSort(column.path)}
           >
             {column.label}
