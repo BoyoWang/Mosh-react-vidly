@@ -1,35 +1,27 @@
 import React from "react";
-import Like from "./like";
+import _ from "lodash";
 
 const TableBody = (props) => {
-  const { data, onLike, onDelete } = props;
+  const { data, columns } = props;
 
-  const listItem = (item) => {
-    const { title, numberInStock, dailyRentalRate, liked } = item;
-    const genre = item.genre.name;
-
-    return (
-      <tr key={item._id}>
-        <td>{title}</td>
-        <td>{genre}</td>
-        <td>{numberInStock}</td>
-        <td>{dailyRentalRate}</td>
-        <td>
-          <Like liked={liked} onClick={() => onLike(item)} />
-        </td>
-        <td>
-          <button
-            className="btn btn-danger btn-sm"
-            onClick={() => onDelete(item)}
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    );
+  const renderCell = (item, column) => {
+    if (column.content) {
+      return column.content(item);
+    }
+    return _.get(item, column.path);
   };
 
-  return <tbody>{data.map((item) => listItem(item))}</tbody>;
+  return (
+    <tbody>
+      {data.map((item) => (
+        <tr key={item._id}>
+          {columns.map((column) => (
+            <td key={column.label || column.key}>{renderCell(item, column)}</td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  );
 };
 
 export default TableBody;
