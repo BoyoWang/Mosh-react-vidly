@@ -11,7 +11,7 @@ const MoviesTable = (props) => {
       path: "title",
       label: "Title",
       content: (movie) => (
-        <Link to={"/movies/" + movie._id}>{movie.title}</Link>
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
       ),
     },
     { path: "genre.name", label: "Genere" },
