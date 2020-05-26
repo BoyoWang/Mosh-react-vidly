@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 
 class LoginFrom extends Component {
-  state = {};
+  handleSubmit = (event) => {
+    event.preventDefault();
+  };
   render() {
     return (
       <div>
         <h1>Login</h1>
-        <form action="">
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input id="username" type="text" className="form-control" />
