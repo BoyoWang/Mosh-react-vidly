@@ -24,8 +24,7 @@ class LoginFrom extends Component {
     event.preventDefault();
 
     const errors = this.validate();
-    console.log(errors);
-    this.setState({ errors });
+    this.setState({ errors: errors || {} });
 
     if (errors) return;
 
@@ -40,7 +39,7 @@ class LoginFrom extends Component {
   };
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
     return (
       <div>
         <h1>Login</h1>
@@ -50,12 +49,14 @@ class LoginFrom extends Component {
             value={account.username}
             label="Username"
             onChange={this.handleChange}
+            error={errors.username}
           />{" "}
           <Input
             name="password"
             value={account.password}
             label="Password"
             onChange={this.handleChange}
+            error={errors.password}
           />
           <button className="btn btn-primary">Login</button>
         </form>
