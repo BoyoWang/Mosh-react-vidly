@@ -17,7 +17,6 @@ class LoginFrom extends Component {
     const options = { abortEarly: false };
     const result = Joi.validate(this.state.account, this.schema, options);
     const error = result.error;
-    console.log(result);
     if (!error) return null;
     const errors = {};
     for (let item of error.details) {
@@ -76,7 +75,9 @@ class LoginFrom extends Component {
             onChange={this.handleChange}
             error={errors.password}
           />
-          <button className="btn btn-primary">Login</button>
+          <button disabled={this.validate()} className="btn btn-primary">
+            Login
+          </button>
         </form>
       </div>
     );
