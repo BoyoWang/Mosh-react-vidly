@@ -1,21 +1,29 @@
 import React from "react";
 import Joi from "joi-browser";
-import From from "./common/form";
+import Form from "./common/form";
 
-class RegisterFrom extends From {
+class RegisterForm extends Form {
   state = {
     data: { username: "", password: "", name: "" },
-    errors: {},
+    errors: {}
   };
 
   schema = {
-    username: Joi.string().required().email().label("Username"),
-    password: Joi.string().required().min(5).label("Password"),
-    name: Joi.string().required().label("Name"),
+    username: Joi.string()
+      .required()
+      .email()
+      .label("Username"),
+    password: Joi.string()
+      .required()
+      .min(5)
+      .label("Password"),
+    name: Joi.string()
+      .required()
+      .label("Name")
   };
 
   doSubmit = () => {
-    //call the sever
+    // Call the server
     console.log("Submitted");
   };
 
@@ -27,11 +35,11 @@ class RegisterFrom extends From {
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Name")}
-          {this.renderButton("Login")}
+          {this.renderButton("Register")}
         </form>
       </div>
     );
   }
 }
 
-export default RegisterFrom;
+export default RegisterForm;

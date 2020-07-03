@@ -1,20 +1,24 @@
 import React from "react";
 import Joi from "joi-browser";
-import From from "./common/form";
+import Form from "./common/form";
 
-class LoginFrom extends From {
+class LoginForm extends Form {
   state = {
     data: { username: "", password: "" },
-    errors: {},
+    errors: {}
   };
 
   schema = {
-    username: Joi.string().required().label("Username"),
-    password: Joi.string().required().label("Password"),
+    username: Joi.string()
+      .required()
+      .label("Username"),
+    password: Joi.string()
+      .required()
+      .label("Password")
   };
 
   doSubmit = () => {
-    //call the sever
+    // Call the server
     console.log("Submitted");
   };
 
@@ -32,4 +36,4 @@ class LoginFrom extends From {
   }
 }
 
-export default LoginFrom;
+export default LoginForm;

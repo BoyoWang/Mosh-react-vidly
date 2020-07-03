@@ -1,45 +1,46 @@
-import React from "react";
+import React, { Component } from "react";
 
-const TableHeader = (props) => {
-  const { sortColumn, onSort, columns } = props;
+// columns: array
+// sortColumn: object
+// onSort: function
 
-  const raiseSort = (path) => {
-    const newSortColumn = { ...sortColumn };
-    if (newSortColumn.path === path) {
-      newSortColumn.order = newSortColumn.order === "asc" ? "desc" : "asc";
-    } else {
-      newSortColumn.path = path;
-      newSortColumn.order = "asc";
+class TableHeader extends Component {
+  raiseSort = path => {
+    const sortColumn = { ...this.props.sortColumn };
+    if (sortColumn.path === path)
+      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+    else {
+      sortColumn.path = path;
+      sortColumn.order = "asc";
     }
-
-    onSort(newSortColumn);
+    this.props.onSort(sortColumn);
   };
 
-  const renderSortIcon = (column) => {
+  renderSortIcon = column => {
+    const { sortColumn } = this.props;
+
     if (column.path !== sortColumn.path) return null;
-    return sortColumn.order === "asc" ? (
-      <i className="fa fa-sort-asc"></i>
-    ) : (
-      <i className="fa fa-sort-desc"></i>
-    );
+    if (sortColumn.order === "asc") return <i className="fa fa-sort-asc" />;
+    return <i className="fa fa-sort-desc" />;
   };
 
-  return (
-    <thead>
-      <tr>
-        {columns.map((column) => (
-          <th
-            className="clickable"
-            key={column.path || column.key}
-            onClick={() => raiseSort(column.path)}
-          >
-            {column.label}
-            {renderSortIcon(column)}
-          </th>
-        ))}
-      </tr>
-    </thead>
-  );
-};
+  render() {
+    return (
+      <thead>
+        <tr>
+          {this.props.columns.map(column => (
+            <th
+              className="clickable"
+              key={column.path || column.key}
+              onClick={() => this.raiseSort(column.path)}
+            >
+              {column.label} {this.renderSortIcon(column)}
+            </th>
+          ))}
+        </tr>
+      </thead>
+    );
+  }
+}
 
 export default TableHeader;

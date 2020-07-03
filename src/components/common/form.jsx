@@ -1,39 +1,38 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Input from "./input";
+import Select from "./select";
 
-class From extends Component {
+class Form extends Component {
   state = {
     data: {},
-    errors: {},
+    errors: {}
   };
 
   validate = () => {
     const options = { abortEarly: false };
-    const result = Joi.validate(this.state.data, this.schema, options);
-    const error = result.error;
+    const { error } = Joi.validate(this.state.data, this.schema, options);
     if (!error) return null;
+
     const errors = {};
-    for (let item of error.details) {
-      errors[item.path[0]] = item.message;
-    }
+    for (let item of error.details) errors[item.path[0]] = item.message;
     return errors;
   };
 
-  validateProperty({ name, value }) {
+  validateProperty = ({ name, value }) => {
     const obj = { [name]: value };
     const schema = { [name]: this.schema[name] };
     const { error } = Joi.validate(obj, schema);
     return error ? error.details[0].message : null;
-  }
+  };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  handleSubmit = e => {
+    e.preventDefault();
 
     const errors = this.validate();
     this.setState({ errors: errors || {} });
-
     if (errors) return;
+
     this.doSubmit();
   };
 
@@ -45,6 +44,7 @@ class From extends Component {
 
     const data = { ...this.state.data };
     data[input.name] = input.value;
+
     this.setState({ data, errors });
   };
 
@@ -56,8 +56,24 @@ class From extends Component {
     );
   }
 
+  renderSelect(name, label, options) {
+    const { data, errors } = this.state;
+
+    return (
+      <Select
+        name={name}
+        value={data[name]}
+        label={label}
+        options={options}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
+
   renderInput(name, label, type = "text") {
     const { data, errors } = this.state;
+
     return (
       <Input
         type={type}
@@ -71,4 +87,4 @@ class From extends Component {
   }
 }
 
-export default From;
+export default Form;
