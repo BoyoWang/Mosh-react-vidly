@@ -10,20 +10,16 @@ class MovieForm extends Form {
       title: "",
       genreId: "",
       numberInStock: "",
-      dailyRentalRate: ""
+      dailyRentalRate: "",
     },
     genres: [],
-    errors: {}
+    errors: {},
   };
 
   schema = {
     _id: Joi.string(),
-    title: Joi.string()
-      .required()
-      .label("Title"),
-    genreId: Joi.string()
-      .required()
-      .label("Genre"),
+    title: Joi.string().required().label("Title"),
+    genreId: Joi.string().required().label("Genre"),
     numberInStock: Joi.number()
       .required()
       .min(0)
@@ -33,7 +29,7 @@ class MovieForm extends Form {
       .required()
       .min(0)
       .max(10)
-      .label("Daily Rental Rate")
+      .label("Daily Rental Rate"),
   };
 
   componentDidMount() {
