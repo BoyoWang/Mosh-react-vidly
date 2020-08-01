@@ -26,9 +26,15 @@ export function getCurrentUser() {
     return null;
   }
 }
+
+export function getJwt() {
+  return localStorage.getItem(tokenKey);
+}
+
 export default {
   login,
   logout,
   getCurrentUser,
   loginWithJwt,
+  getJwt,
 };
